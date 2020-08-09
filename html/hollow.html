@@ -1,0 +1,196 @@
+<!doctype html>
+
+<html>
+<head>
+<style>
+#myCanvas {
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+label {
+	color: white;"
+}
+body { 
+    margin: 0;
+    width: 100%;
+    overflow:hidden;
+}
+
+/* Tooltip container */
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+</style>
+</head>
+
+<body>
+
+<div id="menuStrip" style="background-color:Black;">
+	<img src="../images/Geo.png" style="width:18px;height:18px;">
+	<input type="text" id="Geo Label" value=0 oninput="geoChanged()" size="4">
+	<img src="../images/Simple Key.png" style="width:18px;height:18px;">
+	<label id="Simple Key Label">00000</label>
+	<img src="../images/Pale Ore.png" style="width:18px;height:18px;">
+	<label id="Pale Ore Label">00000</label>
+	<img src="../images/Mask Shard.png" style="width:18px;height:18px;">
+	<label id="Mask Shard Label">00000</label>
+	<img src="../images/Vessel Fragment.png" style="width:18px;height:18px;">
+	<label id="Vessel Fragment Label">00000</label>
+	<img src="../images/Grub.png" style="width:18px;height:18px;">
+	<label id="Grub Label">00000</label>
+	<img src="../images/Dream Essence.png" style="width:18px;height:18px;">
+	<label id="Dream Essence Label">00000</label>
+	<img src="../images/Charm Notch.png" style="width:18px;height:18px;">
+	<label id="Charm Notch Label">00000</label>
+	<img src="../images/Charm.png" style="width:18px;height:18px;">
+	<label id="Charm Label">00000</label>
+	<img src="../images/Stag Station.png" style="width:18px;height:18px;">
+	<label id="Stag Station Label">00000</label>
+	<img src="../images/Map.png" style="width:18px;height:18px;">
+	<label id="Map Label">00000</label>
+	<input type="checkbox" id="hideLockedCheckbox" checked="checked" onchange="hideLockedChanged()">
+		<label class="tooltip"> hide locked<span class="tooltiptext">hold ctrl to flip</span></label>
+	<input type="checkbox" id="showNonCollectablesCheckbox" onchange="showNonCollectablesChanged()">
+		<label> show non-collectables</label>
+	<button type="button" id="importButton" onclick="importSave()">Import</button>
+	<button type="button" id="saveButton" onclick="saveToClipboard()">Save to clipboard</button>
+</div>
+
+<canvas id="myCanvas"></canvas>
+
+<script src="../src/MyLibraries/jquery.js"></script>
+<script src="../src/MyLibraries/MyAlgs.js"></script>
+<script src="../src/MyLibraries/MyMath.js"></script>
+<script src="../src/MyLibraries/Images.js"></script>
+<script src="../src/MyLibraries/SortedLinkedList.js"></script>
+
+<script src="../src/GameEngine/DebugToggle.js"></script>
+<script src="../src/GameEngine/Timer.js"></script>
+<script src="../src/GameEngine/MoveZoomCamera.js"></script>
+<script src="../src/GameEngine/World.js"></script>
+<script src="../src/GameEngine/WorldView.js"></script>
+
+
+<script src="../src/GameEngine/DragManager.js" ></script>
+<script src="../src/GameEngine/TestWorldObjects/DisplayUpdaterObject.js" ></script>
+
+<script src="../src/HollowPlanner/CameraManipulatorObject.js" ></script>
+
+<script src="../src/HollowPlanner/ItemDatabase.js" ></script>
+<script src="../src/HollowPlanner/HollowWorld.js" ></script>
+<script src="../src/HollowPlanner/BackgroundMap.js" ></script>
+<script src="../src/HollowPlanner/Icon.js" ></script>
+<script src="../src/HollowPlanner/InfoBox.js" ></script>
+<script src="../src/HollowPlanner/CounterInventory.js" ></script>
+
+
+
+
+
+
+<script type="text/javascript">
+"use strict";
+
+	var worldView;
+	
+	$(document).ready(function(){
+
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+
+		var rect = document.getElementById("menuStrip").getBoundingClientRect();//absolute position //for if there are menus above
+		canvas.height = window.innerHeight-(rect.bottom-rect.top);//set the height to fill the rest of the screen after 
+
+		canvas.width  = window.innerWidth;//don't use css to set width and height to 100 %. this causes the width and height to be inaccuate
+  		// canvas.height = window.innerHeight-(0-0);//set the height to fill the rest of the screen after the menu
+  		// ctx.canvas.width  = 1000;//don't use css to set width and height to 100 %. this causes the width and height to be inaccuate
+  		// ctx.canvas.height = 700;
+		
+  		worldView = new WorldView(ctx);//negative value for y zoom to make y axis point up instead of down
+  		let world = new HollowWorld();
+  		worldView.world = world;
+
+  		CounterInventory.updateAllLabels();
+  		world.hideLockedCheckbox = document.getElementById("hideLockedCheckbox").checked;
+  		world.showNonCollectables = document.getElementById("showNonCollectablesCheckbox").checked;
+	});
+
+	// $('#Geo Label').keypress(function(event) {
+	//   geoChanged();
+	// });
+
+	
+
+	function hideLockedChanged(){
+		var hideLockedCheckbox = document.getElementById("hideLockedCheckbox");
+		var value = hideLockedCheckbox.checked;
+		worldView.world.hideLockedCheckbox = value;
+
+		document.getElementById("myCanvas").focus;
+		worldView.redraw();
+	}
+
+	function showNonCollectablesChanged(){
+		var checkbox = document.getElementById("showNonCollectablesCheckbox");
+		var value = checkbox.checked;
+		worldView.world.showNonCollectables = value;
+
+		document.getElementById("myCanvas").focus;
+		worldView.redraw();
+	}
+
+	function geoChanged(){
+		let geoValue = document.getElementById("Geo Label").value;
+		geoValue = Number(geoValue);
+		CounterInventory.set("Geo",geoValue);
+		worldView.redraw();
+	}
+
+	function importSave(){
+		var saveText = prompt("Copy and paste your save text:", "");
+
+		if(saveText===''){
+			alert('Input string was empty. Nothing imported!');
+			return;
+		}
+		worldView.world.loadSaveString(saveText);
+
+
+//   <input type="text" id="importTextField">
+		// let importTextField = document.getElementById("importTextField");
+		// if(importTextField.value===''){
+		// 	alert('text field is empty, nothing imported!');
+		// 	return;
+		// }
+		// worldView.world.loadSaveString(importTextField.value);
+		// importTextField.value = "";
+	}
+
+	function saveToClipboard(){
+		MyAlgs.copyTextToClipboard(worldView.world.getSaveText());
+		alert("Save string copied to clipboard.");
+	}
+	
+</script>
+
+</body>
+
+</html>
