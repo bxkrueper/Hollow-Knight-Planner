@@ -6,6 +6,7 @@ class BackgroundMap{
 
 	constructor(){
 		this._pic = Images.get('Main Map.png');
+		this._labels = Images.get('Map Labels.png');
 	}
 
 	doOnAdd(){
@@ -28,6 +29,11 @@ class BackgroundMap{
 
 		//draw main picture
 		ctx.drawImage(this._pic, 0, 0,BackgroundMap.width,BackgroundMap.height);
+
+		//draw labels
+		if(this.world.drawLabels){
+			ctx.drawImage(this._labels, 0, 0,BackgroundMap.width,BackgroundMap.height);
+		}
 	}
 
 	acceptMouseTarget(){

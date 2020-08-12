@@ -1,6 +1,6 @@
 {name:"Vengeful Spirit"}W most of greenpath
 {name:"Mothwing Cloak"}W west fog canyon and most of fungal    cliff????
-{name:"Mantis Claw"}W  east deepnest
+{name:"Mantis Claw"}W  east deepnest, howling cliffs
 {name:"Desolate Dive"}W
 {name:"Crystal Heart"}W
 {name:"Monarch Wings"}W
@@ -13,13 +13,13 @@
 {name:"Dream Nail"}W
 {name:"Sly"}W
 {name:"Tram Pass"}W    west of hive
-{name:"Lumafly Lantern"}W  west deepnest   crystal peak????
+{name:"Lumafly Lantern"},{name:"Mantis Claw"}W  west deepnest   crystal peak????
 {name:"Defender's Crest"}W
-{name:"Simple Lock (Royal Waterways)"}Wroyal water ways entrence, east   west???
+{name:"Simple Lock (Royal Waterways)"}W royal water ways entrence, east   west???
 {name:"AAAAAAAAAAAAAAAA"}W
-{name:"Mantis Claw"},{name:"City Crest"}W
+{name:"Mantis Claw"},{name:"City Crest"}W   west city///////////or east
 {name:"-choose1-",choose1List:[{name:"Tram Pass"},{name:"Defender's Crest"}]}W bason tram, east city, main Kingdom’s edge, resting grounds  (or elevator????????)
-{name:"-choose1-",choose1List:[{name:"Desolate Dive"},{name:"Lumafly Lantern"}]}WCrystal peak  ???????????
+{name:"-choose1-",choose1List:[{name:"Desolate Dive"},{name:"Lumafly Lantern"}]},{name:"Mantis Claw"}WCrystal peak  ???????????
 {name:"-choose1-",choose1List:[{name:"Isma's Tear"},{name:"Shade Cloak"}]}W queen's guarden
 {name:"Mantis Claw"},{name:"City Crest"}W  west city
 {name:"-choose1-",choose1List:[{name:"Lumafly Lantern"},{name:"Tram Pass"},{name:"Monarch Wings"},{name:"Defender's Crest"}]}W   upper resting grounds

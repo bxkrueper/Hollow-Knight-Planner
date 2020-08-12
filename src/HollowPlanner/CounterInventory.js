@@ -2,6 +2,7 @@
 //for items that are in a group and are interchangable (all geo, simple keys are the same)
 class CounterInventory{
 	static _map = CounterInventory.getDefaultMap();
+	static keys = Object.keys(CounterInventory._map);
 
 	static getDefaultMap(){
 		return {
@@ -17,12 +18,14 @@ class CounterInventory{
 			"Charm":0,
 			"Stag Station":0,
 			"Map":0,
+			"Completion":0,
 
 
 			"Wanderer's Journal":0,
 			"Hallownest Seal":0,
 			"King's Idol":0,
 			"Arcane Egg":0,
+			"Rancid Egg":0,
 		};
 	}
 

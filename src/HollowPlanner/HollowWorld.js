@@ -1,22 +1,13 @@
 //ideas:
-//------use bit map for save string- smaller string
 //use something better that alert (don't need to click ok)
-//bug: can have wrong values in counter if reading bad saveText  fix: don't bypass setter. instead use setter but set var to not send to front
-//collected toll benches count as non-collectables
-//------------------------way to filter (just grubs for example)
 //------------------------boss reqs and deeper store items still appear if locked   (add property to itemInfo) + is semiVisable method in icon
-
-
-//pictures of place names
-//auto claim: kingsoul, dirtmounth station, stag nest
+//--remember toggle preferences
 //circle around bosses
 //non-collectables:  shops
-//rancid eggs?
 
 class HollowWorld extends World{
 
-	static itemSeperator = "--";
-	static counterAmountSeperator = "::";
+	
 
 	constructor(){
 		super();
@@ -26,6 +17,8 @@ class HollowWorld extends World{
 
 		this.hideLockedCheckbox;//set by menu strip
 		this.showNonCollectables;//set by menu strip
+		this.drawLabels;//set by menu strip
+		this.recursiveRequirements;//set by menu strip
 
 		this.debugMode = false;
 		this.add(new DebugToggle('d',['shift']));
@@ -33,6 +26,14 @@ class HollowWorld extends World{
 		this.add(new CameraManipulatorObject());
 
 		ItemInfoDatabase.initilizeDatabase();
+		this._dontShowMap = {};//set by hollow.html methods. looked up by icon  example entry: "Rancid Egg":true
+	}
+
+	dontShowType(type){
+		return this._dontShowMap[type];
+	}
+	setDontShow(type,val){
+		this._dontShowMap[type] = val;
 	}
 
 	//override
@@ -47,8 +48,8 @@ class HollowWorld extends World{
 		let backgroundMap = new BackgroundMap();
 		this.add(backgroundMap);
 
+		// this.addNonCollectables();
 		this.addIcons();
-
 	}
 
 	addIcons(){
@@ -57,6 +58,15 @@ class HollowWorld extends World{
 			self.add(new Icon(itemInfo));
 		});
 	}
+
+	// addNonCollectables(){
+	// 	let self = this;
+	// 	ItemInfoDatabase.doForAllItemInfo(function(itemInfo){
+	// 		self.add(new Icon(itemInfo));
+	// 	});
+	// }
+
+
 
 	get selectedObject(){
 		return this._selectedObject;
@@ -104,24 +114,32 @@ class HollowWorld extends World{
 
 	loadSaveString(saveString){
 		this.loadingSave = true;//lets Icon know not to bother with selecting or shuffling order, as many things are being claimed at once
-		//unclaim all items
-		ItemInfoDatabase.doForAllItemInfo(function(itemInfo){
-			itemInfo.icon.have = false;
-		});
 
 		saveString = saveString.trim();//remove any surounding white space from someone's text editer when it was copied
 
 		try{
-			let stringArray = saveString.split(HollowWorld.itemSeperator);
+			let stringArray = saveString.split("^^");
+			let counterString = stringArray[0];
+			let bitString = MyAlgs.hexStringToBinaryString(stringArray[1]);
+console.log(bitString);
+console.log(bitString.length);
 
-			for(let itemString of stringArray){
-				if(itemString.search(HollowWorld.counterAmountSeperator)>=0){
-					//itemString describes a Counter Inventory amount
-					let itemStringArray = itemString.split(HollowWorld.counterAmountSeperator);
-					CounterInventory.set(itemStringArray[0],Number(itemStringArray[1]));
-				}else{
-					//itemString is for an icon that needs to be claimed
-					ItemInfoDatabase.getItemInfo(itemString).icon.have = true;
+			let counterStringArray = counterString.split(";");
+
+			//set counter ammounts
+			for(let i=0;i<counterStringArray.length;i++){
+				let name = CounterInventory.keys[i];
+				CounterInventory.set(name,Number(counterStringArray[i]));
+			}
+
+			//set icon have/not have.  Ignore uncollectables
+			let keys = ItemInfoDatabase.keys;
+			let length = Math.min(keys.length,bitString.length);//slight protection against corrupted data
+			for(let bitStringIndex=0;bitStringIndex<length;bitStringIndex++){
+				if(bitString[bitStringIndex]==='1'){//have it
+					ItemInfoDatabase.getItemInfo(keys[bitStringIndex]).icon.have = true;
+				}else{//0. don't have
+					ItemInfoDatabase.getItemInfo(keys[bitStringIndex]).icon.have = false;
 				}
 			}
 
@@ -137,25 +155,94 @@ class HollowWorld extends World{
 		this.loadingSave = false;
 	}
 
+///////'π'.charCodeAt(0).toString(2).padStart(16,0);   returns '0000001111000000'
+///////String.fromCharCode(parseInt('0000001111000000', 2));  returns 'π'
 
-	//items seperated by '--'. counters seperated by '::'
-	//ex: "Geo::123--Pale Ore::2--City Crest--False Knight"
+	
 	getSaveText(){
 		let string = "";
 
-		CounterInventory.doForAllCounters(function(name,amount){
-			string += (name + HollowWorld.counterAmountSeperator + amount.toString() + HollowWorld.itemSeperator);
+		CounterInventory.keys.forEach(function(value, index, array){
+			let amount = CounterInventory.count(value);
+			string += amount.toString() + ';';
 		});
 
-		ItemInfoDatabase.doForAllItemInfo(function(itemInfo){
-			if(itemInfo.icon.have){
-				string += (itemInfo.name + HollowWorld.itemSeperator);
-			}
+		string = string.slice(0,string.length-1);//get rid of last comma
+		string += "^^";//seperator between counters and havs
+
+		//ignore uncollectables at the end
+		let haveBinString = '';
+		ItemInfoDatabase.keys.forEach(function(value, index, array){
+			let itemInfo = ItemInfoDatabase.getItemInfo(value);
+				let addOn = itemInfo.icon.have?'1':'0';
+  				haveBinString += addOn;
 		});
 
-		string = string.slice(0,string.length-2);
-
+console.log(haveBinString);
+console.log(haveBinString.length);
+		string += MyAlgs.binaryStringToHexString(haveBinString);
 		return string;
 	}
+
+
+
+	// static itemSeperator = "--";
+	// static counterAmountSeperator = "::";
+
+	// loadSaveString(saveString){
+	// 	this.loadingSave = true;//lets Icon know not to bother with selecting or shuffling order, as many things are being claimed at once
+	// 	//unclaim all items
+	// 	ItemInfoDatabase.doForAllItemInfo(function(itemInfo){
+	// 		itemInfo.icon.have = false;
+	// 	});
+
+	// 	saveString = saveString.trim();//remove any surounding white space from someone's text editer when it was copied
+
+	// 	try{
+	// 		let stringArray = saveString.split(HollowWorld.itemSeperator);
+
+	// 		for(let itemString of stringArray){
+	// 			if(itemString.search(HollowWorld.counterAmountSeperator)>=0){
+	// 				//itemString describes a Counter Inventory amount
+	// 				let itemStringArray = itemString.split(HollowWorld.counterAmountSeperator);
+	// 				CounterInventory.set(itemStringArray[0],Number(itemStringArray[1]));
+	// 			}else{
+	// 				//itemString is for an icon that needs to be claimed
+	// 				ItemInfoDatabase.getItemInfo(itemString).icon.have = true;
+	// 			}
+	// 		}
+
+	// 		this.worldView.redraw();
+	// 		alert("Import successful!");
+	// 	}catch(e){
+	// 		this.worldView.redraw();
+	// 		alert("Error reading save text!");
+	// 		console.log("Problem occured: " + e);
+	// 	}
+		
+		
+	// 	this.loadingSave = false;
+	// }
+
+
+	// //items seperated by '--'. counters seperated by '::'
+	// //ex: "Geo::123--Pale Ore::2--City Crest--False Knight"
+	// getSaveText(){
+	// 	let string = "";
+
+	// 	CounterInventory.doForAllCounters(function(name,amount){
+	// 		string += (name + HollowWorld.counterAmountSeperator + amount.toString() + HollowWorld.itemSeperator);
+	// 	});
+
+	// 	ItemInfoDatabase.doForAllItemInfo(function(itemInfo){
+	// 		if(itemInfo.icon.have){
+	// 			string += (itemInfo.name + HollowWorld.itemSeperator);
+	// 		}
+	// 	});
+
+	// 	string = string.slice(0,string.length-2);
+
+	// 	return string;
+	// }
 	
 }

@@ -17,8 +17,6 @@ body {
     overflow:hidden;
 }
 
-/* Tooltip container */
-
 /* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
@@ -44,32 +42,56 @@ body {
 <body>
 
 <div id="menuStrip" style="background-color:Black;">
-	<img src="../images/Geo.png" style="width:18px;height:18px;">
-	<input type="text" id="Geo Label" value=0 oninput="geoChanged()" size="4">
-	<img src="../images/Simple Key.png" style="width:18px;height:18px;">
-	<label id="Simple Key Label">00000</label>
-	<img src="../images/Pale Ore.png" style="width:18px;height:18px;">
-	<label id="Pale Ore Label">00000</label>
-	<img src="../images/Mask Shard.png" style="width:18px;height:18px;">
-	<label id="Mask Shard Label">00000</label>
-	<img src="../images/Vessel Fragment.png" style="width:18px;height:18px;">
-	<label id="Vessel Fragment Label">00000</label>
-	<img src="../images/Grub.png" style="width:18px;height:18px;">
-	<label id="Grub Label">00000</label>
-	<img src="../images/Dream Essence.png" style="width:18px;height:18px;">
-	<label id="Dream Essence Label">00000</label>
-	<img src="../images/Charm Notch.png" style="width:18px;height:18px;">
-	<label id="Charm Notch Label">00000</label>
-	<img src="../images/Charm.png" style="width:18px;height:18px;">
-	<label id="Charm Label">00000</label>
-	<img src="../images/Stag Station.png" style="width:18px;height:18px;">
-	<label id="Stag Station Label">00000</label>
-	<img src="../images/Map.png" style="width:18px;height:18px;">
-	<label id="Map Label">00000</label>
+	<img src="../images/Geo.png" style="width:18px;height:18px;" id="Geo Pic" class="tooltip">
+	<input type="text" id="Geo Label" value=0 oninput="geoChanged()" size="4" maxLength="7">
+	<img src="../images/Simple Key.png" style="width:18px;height:18px;" id="Simple Key Pic" onclick="simpleKeyToggled()">
+	<label id="Simple Key Label" onclick="simpleKeyToggled()">0</label>
+	<img src="../images/Pale Ore.png" style="width:18px;height:18px;" id="Pale Ore Pic" onclick="paleOreToggled()">
+	<label id="Pale Ore Label" onclick="paleOreToggled()">0</label>
+	<img src="../images/Mask Shard.png" style="width:18px;height:18px;" id="Mask Shard Pic" onclick="maskShardToggled()">
+	<label id="Mask Shard Label" onclick="maskShardToggled()">0</label>
+	<img src="../images/Vessel Fragment.png" style="width:18px;height:18px;" id="Vessel Fragment Pic" onclick="vesselFragmentToggled()">
+	<label id="Vessel Fragment Label" onclick="vesselFragmentToggled()">0</label>
+	<img src="../images/Grub.png" style="width:18px;height:18px;" id="Grub Pic" onclick="grubToggled()">
+	<label id="Grub Label" onclick="grubToggled()">0</label>
+	<img src="../images/Dream Essence.png" style="width:18px;height:18px;" id="Dream Essence Pic" onclick="dreamEssenceGiverToggled()">
+	<label id="Dream Essence Label" onclick="dreamEssenceGiverToggled()">0</label>
+	<img src="../images/Charm Notch.png" style="width:18px;height:18px;" id="Charm Notch Pic" onclick="charmNotchToggled()">
+	<label id="Charm Notch Label" onclick="charmNotchToggled()">0</label>
+	<img src="../images/Charm.png" style="width:18px;height:18px;" id="Charm Pic" onclick="charmToggled()">
+	<label id="Charm Label" onclick="charmToggled()">0</label>
+	<img src="../images/Stag Station.png" style="width:18px;height:18px;" id="Stag Station Pic" onclick="stagStationToggled()">
+	<label id="Stag Station Label" onclick="stagStationToggled()">0</label>
+	<img src="../images/Map.png" style="width:18px;height:18px;" id="Map Pic" onclick="mapToggled()">
+	<label id="Map Label" onclick="mapToggled()">0</label>
+	<img src="../images/Wanderers Journal.png" style="width:18px;height:18px;" id="Wanderer's Journal Pic" onclick="journalToggled()">
+	<label id="Wanderer's Journal Label" onclick="journalToggled()">0</label>
+	<img src="../images/Hallownest Seal.png" style="width:18px;height:18px;" id="Hallownest Seal Pic" onclick="sealToggled()">
+	<label id="Hallownest Seal Label" onclick="sealToggled()">0</label>
+	<img src="../images/Kings Idol.png" style="width:18px;height:18px;" id="King's Idol Pic" onclick="idolToggled()">
+	<label id="King's Idol Label" onclick="idolToggled()">0</label>
+	<img src="../images/Arcane Egg.png" style="width:18px;height:18px;" id="Arcane Egg Pic" onclick="arcaneEggToggled()">
+	<label id="Arcane Egg Label" onclick="arcaneEggToggled()">0</label>
+	<img src="../images/Rancid Egg.png" style="width:18px;height:18px;" id="Rancid Egg Pic" onclick="rancidEggToggled()">
+	<label id="Rancid Egg Label" onclick="rancidEggToggled()">0</label>
+	<span class="tooltip">
+		<img src="../images/Completion.png" style="width:18px;height:18px;" id="Completion Pic">
+		<span class="tooltiptext">Completion Percentage</span>
+	</span>
+	<label id="Completion Label">0</label>
+	<label >%</label>
+	<span class="tooltip">
+		<img src="../images/Arrow Left.png" style="width:18px;height:18px;" id="Shortcut Pic" onclick="shortcutToggled()">
+		<span class="tooltiptext">Shortcuts</span>
+	</span>
 	<input type="checkbox" id="hideLockedCheckbox" checked="checked" onchange="hideLockedChanged()">
-		<label class="tooltip"> hide locked<span class="tooltiptext">hold ctrl to flip</span></label>
+		<label class="tooltip"> Hide locked icons<span class="tooltiptext">hold ctrl to flip</span></label>
 	<input type="checkbox" id="showNonCollectablesCheckbox" onchange="showNonCollectablesChanged()">
-		<label> show non-collectables</label>
+		<label> Show non-collectables</label>
+	<input type="checkbox" id="showLabelsCheckbox" checked="checked" onchange="showLabelsChanged()">
+		<label> Show location names</label>
+	<input type="checkbox" id="recursiveRequirementsCheckbox" checked="checked" onchange="recursiveRequirementsChanged()">
+		<label> Show recursive requirements</label>
 	<button type="button" id="importButton" onclick="importSave()">Import</button>
 	<button type="button" id="saveButton" onclick="saveToClipboard()">Save to clipboard</button>
 </div>
@@ -100,6 +122,7 @@ body {
 <script src="../src/HollowPlanner/Icon.js" ></script>
 <script src="../src/HollowPlanner/InfoBox.js" ></script>
 <script src="../src/HollowPlanner/CounterInventory.js" ></script>
+<script src="../src/HollowPlanner/NonCollectable.js" ></script>
 
 
 
@@ -131,6 +154,10 @@ body {
   		CounterInventory.updateAllLabels();
   		world.hideLockedCheckbox = document.getElementById("hideLockedCheckbox").checked;
   		world.showNonCollectables = document.getElementById("showNonCollectablesCheckbox").checked;
+  		world.drawLabels = document.getElementById("showLabelsCheckbox").checked;
+  		world.recursiveRequirements = document.getElementById("recursiveRequirementsCheckbox").checked;
+
+  		rancidEggToggled();//don't show rancid eggs by default
 	});
 
 	// $('#Geo Label').keypress(function(event) {
@@ -147,11 +174,26 @@ body {
 		document.getElementById("myCanvas").focus;
 		worldView.redraw();
 	}
-
 	function showNonCollectablesChanged(){
 		var checkbox = document.getElementById("showNonCollectablesCheckbox");
 		var value = checkbox.checked;
 		worldView.world.showNonCollectables = value;
+
+		document.getElementById("myCanvas").focus;
+		worldView.redraw();
+	}
+	function showLabelsChanged(){
+		var checkbox = document.getElementById("showLabelsCheckbox");
+		var value = checkbox.checked;
+		worldView.world.drawLabels = value;
+
+		document.getElementById("myCanvas").focus;
+		worldView.redraw();
+	}
+	function recursiveRequirementsChanged(){
+		var checkbox = document.getElementById("recursiveRequirementsCheckbox");
+		var value = checkbox.checked;
+		worldView.world.recursiveRequirements = value;
 
 		document.getElementById("myCanvas").focus;
 		worldView.redraw();
@@ -188,6 +230,70 @@ body {
 		MyAlgs.copyTextToClipboard(worldView.world.getSaveText());
 		alert("Save string copied to clipboard.");
 	}
+
+	function somethingToggled(name){
+		let oldValue = worldView.world.dontShowType(name);
+		let newValue = !oldValue;
+		worldView.world.setDontShow(name,newValue);
+
+		if(newValue){
+			document.getElementById(name + " Pic").style.opacity = 0.5;
+		}else{
+			document.getElementById(name + " Pic").style.opacity = 1;
+		}
+
+		worldView.redraw();
+	}
+
+	function simpleKeyToggled(){
+		somethingToggled("Simple Key");
+	}
+	function paleOreToggled(){
+		somethingToggled("Pale Ore");
+	}
+	function maskShardToggled(){
+		somethingToggled("Mask Shard");
+	}
+	function vesselFragmentToggled(){
+		somethingToggled("Vessel Fragment");
+	}
+	function grubToggled(){
+		somethingToggled("Grub");
+	}
+	function dreamEssenceGiverToggled(){
+		somethingToggled("Dream Essence");
+	}
+	function charmNotchToggled(){
+		somethingToggled("Charm Notch");
+	}
+	function charmToggled(){
+		somethingToggled("Charm");
+	}
+	function stagStationToggled(){
+		somethingToggled("Stag Station");
+	}
+	function mapToggled(){
+		somethingToggled("Map");
+	}
+	function journalToggled(){
+		somethingToggled("Wanderer's Journal");
+	}
+	function sealToggled(){
+		somethingToggled("Hallownest Seal");
+	}
+	function idolToggled(){
+		somethingToggled("King's Idol");
+	}
+	function arcaneEggToggled(){
+		somethingToggled("Arcane Egg");
+	}
+	function rancidEggToggled(){
+		somethingToggled("Rancid Egg");
+	}
+	function shortcutToggled(){
+		somethingToggled("Shortcut");
+	}
+
 	
 </script>
 

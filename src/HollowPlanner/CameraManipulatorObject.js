@@ -90,7 +90,7 @@ class CameraManipulatorObject{
 		if(camera.right>this._rightBorder){
 			camera.right = this._rightBorder;
 		}
-		if(camera.left<this._leftBorder || camera.right>this._rightBorder){
+		if(camera.left<this._leftBorder-1 || camera.right>this._rightBorder+1){//give some leway due to precision errors
 			camera.xCenter = BackgroundMap.width/2;//top left is 0,0
 		}
 		
@@ -100,7 +100,7 @@ class CameraManipulatorObject{
 		if(camera.bottom>this._bottomBorder){
 			camera.bottom = this._bottomBorder;
 		}
-		if(camera.top<this._topBorder && camera.bottom>this._bottomBorder){
+		if(camera.top<this._topBorder-1 && camera.bottom>this._bottomBorder+1){//give some leway due to precision errors
 			camera.yCenter = BackgroundMap.height/2;//top left is 0,0
 		}
 		

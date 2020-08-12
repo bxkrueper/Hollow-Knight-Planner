@@ -4,13 +4,10 @@ class Icon{
 
 	static outlineStrokeThickness = 3;
 
-	
-
 	constructor(itemInfo){
 		this._itemInfo = itemInfo;
 		this.itemInfo.icon = this;//set itemInfo's reference
 		this._pic = Images.get(itemInfo.pictureName);
-		
 
 		if(this.itemInfo.hitboxType==='rect'){
 			this.containsPoint = this.containsPointRect;
@@ -54,25 +51,35 @@ class Icon{
 		return this._have;
 	}
 	set have(newHave){
+		let oldHave = this._have;
 		this._have = newHave;
+		if(oldHave!=newHave){
+			let priority = this._have?this.world.priorities['IconObtained']:this.world.priorities['IconDefault'];
+			this.priority = priority;//update priority (still sends it to front of others with the same proirity)
+		}
 
 		if(this.world.loadingSave){
-			return;//don't bother with Counters. those are set directly while loading. Also don't waste time shuffling order 
+			//stop here. don't bother with Counters. those are set directly while loading. Also don't waste time shuffling order on the same priority
+			return;
 		}
 
 		this.exchangeCurrencyReqs(this._have);
 		this.addToUponGetting(this._have);
-
-		let priority = this._have?this.world.priorities['IconObtained']:this.world.priorities['IconDefault'];
-		this.priority = priority;//update priority (still sends it to front of others with the same proirity)
+		if(oldHave===newHave){
+			this.priority = this.priority;//shuffle to front of others with same priority if priority wasn't already changed
+		}
+		
 		if(this._have && this.world.selectedObject === this){
 			this.world.selectedObject = null;//deselect object after claiming
 		}
 
-
-		// if(this.itemInfo.doOnClaimed!=null){
-		// 	this.itemInfo.doOnClaimed();    doOnUnClaimed
-		// }
+		//look for special functions to do when claiming or unclaiming
+		if(this._have && this.itemInfo.doOnClaimed!=null){
+			this.itemInfo.doOnClaimed();
+		}
+		if(!this._have && this.itemInfo.doOnUnClaimed!=null){
+			this.itemInfo.doOnUnClaimed();
+		}
 	}
 	haveToggle(){
 		this.have = !this.have;
@@ -95,8 +102,17 @@ class Icon{
 		if(addToOnClaimed==null){
 			return;
 		}
-		let quantity = obtained?addToOnClaimed.quantity:-addToOnClaimed.quantity;
-		CounterInventory.addTo(addToOnClaimed.name,quantity);
+
+		//addToOnClaimed could be a {name:'name',quantity:#} or an array of them
+		if(Array.isArray(addToOnClaimed)){
+			for(let addToObject of addToOnClaimed){
+				let quantity = obtained?addToObject.quantity:-addToObject.quantity;
+				CounterInventory.addTo(addToObject.name,quantity);
+			}
+		}else{
+			let quantity = obtained?addToOnClaimed.quantity:-addToOnClaimed.quantity;
+			CounterInventory.addTo(addToOnClaimed.name,quantity);
+		}
 	}
 
 	//center of pic
@@ -269,12 +285,12 @@ class Icon{
 	}
 	_drawRequirementLinesHelper(req,ctx,backtraceAllTheWay){
 		let reqItemInfo = ItemInfoDatabase.getItemInfo(req.name);
-		if(reqItemInfo==null){///////////is in collectable invintory. indicate reqs somehow
+		if(reqItemInfo==null){
 			return;
 		}
 
 		reqItemInfo.icon.drawArrowTo(this,ctx);
-		if(backtraceAllTheWay){////////remove false when reqs are done
+		if(backtraceAllTheWay){
 			reqItemInfo.icon.drawRequirementLines(ctx,backtraceAllTheWay);
 		}
 	}
@@ -357,7 +373,7 @@ class Icon{
 
 
 	shouldHide(){
-		return (this.itemInfo.nonCollectable && !this.world.showNonCollectables) || (this.hideIfLocked() && this.status==='locked');
+		return (this.itemInfo.type!=null && this.world.dontShowType(this.itemInfo.type)) || (this.itemInfo.nonCollectable && !this.world.showNonCollectables) || (this.hideIfLocked() && this.status==='locked');
 	}
 
 	
@@ -367,7 +383,7 @@ class Icon{
 		}
 
 		if(this.selected && this.status==='locked'){
-			this.drawRequirementLines(ctx,true);
+			this.drawRequirementLines(ctx,this.world.recursiveRequirements);
 		}
 
 		//draw icon
@@ -376,7 +392,7 @@ class Icon{
 			let xScreen=this.world.worldView.currentXScreen;
 			let yScreen=this.world.worldView.currentYScreen;
 			//height and width not /2 to show if mouse is further out
-			if(xScreen>(this.xScreen-this.widthScreen*1.5) && xScreen<(this.xScreen+this.widthScreen*1.5) && yScreen>(this.yScreen-this.heightScreen*1.5) && yScreen<(this.yScreen+this.heightScreen*1.5)){
+			if((xScreen>(this.xScreen-this.widthScreen*1.5) && xScreen<(this.xScreen+this.widthScreen*1.5) && yScreen>(this.yScreen-this.heightScreen*1.5) && yScreen<(this.yScreen+this.heightScreen*1.5)) || (this.itemInfo.showAsNonCollectable&&this.world.showNonCollectables)){
 				ctx.globalAlpha = 0.5;
 				ctx.drawImage(this._pic, this.leftScreen, this.topScreen,this.widthScreen,this.heightScreen);
 				ctx.globalAlpha = 1;

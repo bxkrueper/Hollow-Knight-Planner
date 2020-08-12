@@ -8,6 +8,34 @@
 class MyAlgs{
 
 
+	//binString can be really long
+	//adds extra 0's at the end if needed
+	static binaryStringToHexString(bin){
+		//make sure it is a multiple of 4
+		let added0s = (4-bin.length%4)%4;
+		for(let i=0;i<added0s;i++){
+			bin += '0';
+		}
+
+		let finalString = '';
+		for(let i=0;i<bin.length;i+=4){
+			finalString += parseInt(bin.slice(i,i+4), 2).toString(16);
+		}
+
+		return finalString;
+	}
+
+
+	static hexStringToBinaryString(hex){
+		let finalString = '';
+
+		for(let i=0;i<hex.length;i++){
+			finalString += parseInt(hex[i], 16).toString(2).padStart(4,0);
+		}
+		return finalString.padStart(hex.length*4,0);
+	}
+
+
 //use this instead?
 // 	Array.prototype.deleteElem = function(val) {
 //     var index = this.indexOf(val); 
