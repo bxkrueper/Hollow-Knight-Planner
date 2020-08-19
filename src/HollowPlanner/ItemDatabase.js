@@ -21,7 +21,7 @@ class ItemInfoDatabase{
 		ItemInfoDatabase.keys = ItemInfoDatabase.keys.filter(function(itemName){
 			return !ItemInfoDatabase.getItemInfo(itemName).nonCollectable;
 		});
-		console.log(ItemInfoDatabase.keys);
+		// console.log(ItemInfoDatabase.keys);
 	}
 	//not used
 	// static _addItemInfo(itemInfo){
@@ -1521,6 +1521,28 @@ class ItemInfoDatabase{
 
 			"Shortcut (Deepnest North)":{	x:137.8,y:179.7,size:30,pictureName:"Arrow Right.png",hitboxType:'rect',type:"Shortcut",
 			requirements:[{name:"Mantis Claw"}], notes:null},
+
+			//Mr Mushroom___________________________________________________
+			"Mr. Mushroom 1":{	x:165,y:146,size:40,pictureName:"Mister Mushroom.png",hitboxType:'rect',type:"Mister Mushroom",
+			requirements:[{name:"Spore Shroom"}], notes:"Spore Shroom must be equipped"},
+
+			"Mr. Mushroom 2":{	x:344.5,y:196.6,size:40,pictureName:"Mister Mushroom.png",hitboxType:'rect',type:"Mister Mushroom",
+			requirements:[{name:"Mr. Mushroom 1"},{name:"Tram Pass"}], notes:"Spore Shroom must be equipped"},
+
+			"Mr. Mushroom 3":{	x:93,y:185,size:40,pictureName:"Mister Mushroom.png",hitboxType:'rect',type:"Mister Mushroom",
+			requirements:[{name:"Mr. Mushroom 2"},{name:"Lumafly Lantern"}], notes:"Spore Shroom must be equipped"},
+
+			"Mr. Mushroom 4":{	x:142.7,y:39.4,size:40,pictureName:"Mister Mushroom.png",hitboxType:'rect',type:"Mister Mushroom",
+			requirements:[{name:"Mr. Mushroom 3"}], notes:"Spore Shroom must be equipped. In the house"},
+
+			"Mr. Mushroom 5":{	x:200,y:225,size:40,pictureName:"Mister Mushroom.png",hitboxType:'rect',type:"Mister Mushroom",
+			requirements:[{name:"Mr. Mushroom 4"},{name:"Crystal Heart"}], notes:"Spore Shroom must be equipped"},
+
+			"Mr. Mushroom 6":{	x:109.7,y:124.1,size:40,pictureName:"Mister Mushroom.png",hitboxType:'rect',type:"Mister Mushroom",
+			requirements:[{name:"Mr. Mushroom 5"},queensGuardens], notes:"Spore Shroom must be equipped"},
+
+			"Mr. Mushroom 7":{	x:154.5,y:65,size:40,pictureName:"Mister Mushroom.png",hitboxType:'rect',type:"Mister Mushroom",
+			requirements:[{name:"Mr. Mushroom 6"}], notes:"Spore Shroom must be equipped"},
 
 
 

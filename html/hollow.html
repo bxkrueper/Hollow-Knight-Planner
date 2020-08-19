@@ -39,7 +39,7 @@ body {
 </style>
 </head>
 
-<body>
+<body onload = 'load()'>
 
 <div id="menuStrip" style="background-color:Black;">
 	<img src="../images/Geo.png" style="width:18px;height:18px;" id="Geo Pic" class="tooltip">
@@ -81,6 +81,10 @@ body {
 	<label id="Completion Label">0</label>
 	<label >%</label>
 	<span class="tooltip">
+		<img src="../images/Mister Mushroom.png" style="width:18px;height:18px;" id="Mister Mushroom Pic" onclick="misterMushroomToggled()">
+		<span class="tooltiptext">Mr. Mushroom locations</span>
+	</span>
+	<span class="tooltip">
 		<img src="../images/Arrow Left.png" style="width:18px;height:18px;" id="Shortcut Pic" onclick="shortcutToggled()">
 		<span class="tooltiptext">Shortcuts</span>
 	</span>
@@ -98,7 +102,6 @@ body {
 
 <canvas id="myCanvas"></canvas>
 
-<script src="../src/MyLibraries/jquery.js"></script>
 <script src="../src/MyLibraries/MyAlgs.js"></script>
 <script src="../src/MyLibraries/MyMath.js"></script>
 <script src="../src/MyLibraries/Images.js"></script>
@@ -134,8 +137,12 @@ body {
 
 	var worldView;
 	
-	$(document).ready(function(){
+	// $(document).ready(function(){
 
+	// 	load();
+	// });
+
+	function load(){
 		var canvas = document.getElementById("myCanvas");
 		var ctx = canvas.getContext("2d");
 
@@ -158,11 +165,7 @@ body {
   		world.recursiveRequirements = document.getElementById("recursiveRequirementsCheckbox").checked;
 
   		rancidEggToggled();//don't show rancid eggs by default
-	});
-
-	// $('#Geo Label').keypress(function(event) {
-	//   geoChanged();
-	// });
+	}
 
 	
 
@@ -292,6 +295,9 @@ body {
 	}
 	function shortcutToggled(){
 		somethingToggled("Shortcut");
+	}
+	function misterMushroomToggled(){
+		somethingToggled("Mister Mushroom");
 	}
 
 	
