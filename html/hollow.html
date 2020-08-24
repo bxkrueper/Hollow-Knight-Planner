@@ -42,7 +42,7 @@ body {
 <body onload = 'load()'>
 
 <div id="menuStrip" style="background-color:Black;">
-	<img src="../images/Geo.png" style="width:18px;height:18px;" id="Geo Pic" class="tooltip">
+	<img src="../images/Geo.png" style="width:18px;height:18px;" id="Geo Pic" class="tooltip" onclick="geoToggled()">
 	<input type="text" id="Geo Label" value=0 oninput="geoChanged()" size="4" maxLength="7">
 	<img src="../images/Simple Key.png" style="width:18px;height:18px;" id="Simple Key Pic" onclick="simpleKeyToggled()">
 	<label id="Simple Key Label" onclick="simpleKeyToggled()">0</label>
@@ -248,6 +248,9 @@ body {
 		worldView.redraw();
 	}
 
+	function geoToggled(){
+		somethingToggled("Geo");
+	}
 	function simpleKeyToggled(){
 		somethingToggled("Simple Key");
 	}

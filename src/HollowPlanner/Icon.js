@@ -247,7 +247,8 @@ class Icon{
 		}
 	}
 
-	drawRequirementLines(ctx,backtraceAllTheWay,requirements = this.itemInfo.requirements,color='#FF0000'){
+	//alreadyDoneMap: all reqs who's reqs have already been drawn
+	drawRequirementLines(ctx,backtraceAllTheWay,alreadyDoneMap={},requirements = this.itemInfo.requirements,color='#FF0000'){
 		
 		ctx.lineWidth = Icon.outlineStrokeThickness;
 		for(let req of requirements){
@@ -260,7 +261,7 @@ class Icon{
 				let choose1List = req.choose1List;
 				for(let i in choose1List){
 					let optionReq = choose1List[i];
-					this.drawRequirementLines(ctx,backtraceAllTheWay,[optionReq],'#FFFF00');
+					this.drawRequirementLines(ctx,backtraceAllTheWay,alreadyDoneMap,[optionReq],'#FFFF00');
 				}
 
 				continue;
@@ -271,27 +272,29 @@ class Icon{
 				for(let i in allList){
 					let optionReq = allList[i];
 					if(!Icon.meetsReq(optionReq)){
-						this.drawRequirementLines(ctx,backtraceAllTheWay,[optionReq],'#FF8888');
+						this.drawRequirementLines(ctx,backtraceAllTheWay,alreadyDoneMap,[optionReq],'#FF8888');
 					}
 					
 				}
 
 				continue;
 			}
+				
 
 			ctx.strokeStyle = color;
-			this._drawRequirementLinesHelper(req,ctx,backtraceAllTheWay);
-		}
-	}
-	_drawRequirementLinesHelper(req,ctx,backtraceAllTheWay){
-		let reqItemInfo = ItemInfoDatabase.getItemInfo(req.name);
-		if(reqItemInfo==null){
-			return;
-		}
+			let reqItemInfo = ItemInfoDatabase.getItemInfo(req.name);
+			if(reqItemInfo==null){
+				return;
+			}
 
-		reqItemInfo.icon.drawArrowTo(this,ctx);
-		if(backtraceAllTheWay){
-			reqItemInfo.icon.drawRequirementLines(ctx,backtraceAllTheWay);
+			reqItemInfo.icon.drawArrowTo(this,ctx);
+			if(backtraceAllTheWay && !alreadyDoneMap[req.name]){
+				alreadyDoneMap[req.name] = true;//mark as done
+				reqItemInfo.icon.drawRequirementLines(ctx,backtraceAllTheWay,alreadyDoneMap);
+			}
+
+
+			
 		}
 	}
 

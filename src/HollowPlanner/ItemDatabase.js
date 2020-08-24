@@ -113,7 +113,7 @@ class ItemInfoDatabase{
 			addToOnClaimed:{name:'Completion',quantity:1}  },
 
 			"Sly":{	x:259,y:103,size:40,pictureName:"Sly.png",hitboxType:'circle',linkEx:"Sly",
-			requirements:[{name:"Gruz Mother"}], notes:'inside a house'},
+			requirements:[{name:"-choose1-",choose1List:[{name:"Gruz Mother"},{name:"Tram Pass"},{name:"Dung Defender"},{name:"Desolate Dive"}]}], notes:'inside a house'},
 
 			"Simple Key (Sly)":{	x:214,y:15,size:50,pictureName:"Simple Key.png",hitboxType:'circle',linkEx:"Simple_Key",type:"Simple Key",
 			requirements:[{name:"Sly"},{name:"Geo",quantity:950}], notes:null,
@@ -239,7 +239,8 @@ class ItemInfoDatabase{
 			requirements:[{name:"-choose1-",choose1List:[{name:"Desolate Dive"},{name:"Lumafly Lantern"}]},{name:"Mantis Claw"}], notes:null },
 
 			"Enraged Guardian":{	x:287.2,y:47.5,size:60,pictureName:"Enraged Guardian.png",hitboxType:'circle',linkEx:"Enraged_Guardian",
-			requirements:[{name:"Crystal Guardian"},{name:"Monarch Wings"}], notes:"does double damage" },
+			requirements:[{name:"Crystal Guardian"},{name:"Monarch Wings"}], notes:"does double damage. Drops 550 geo",
+			addToOnClaimed:{name:"Geo",quantity:550} },
 
 			"Dung Defender":{	x:296,y:181,size:50,pictureName:"Dung Defender.png",hitboxType:'circle',linkEx:"Dung_Defender",
 			requirements:[royalWaterwaysStart], notes:"remember to hit the lever on the right to open up more of the waterways",
@@ -260,8 +261,8 @@ class ItemInfoDatabase{
 			addToOnClaimed:{name:'Completion',quantity:1} },
 
 			"Gruz Mother":{	x:260,y:99,size:50,pictureName:"Gruz Mother.png",hitboxType:'circle',linkEx:"Gruz_Mother",
-			requirements:[], notes:null,
-			addToOnClaimed:{name:'Completion',quantity:1} },
+			requirements:[], notes:"drops 50 geo",
+			addToOnClaimed:[{name:'Completion',quantity:1},{name:"Geo",quantity:50}] },
 
 			"Hive Knight":{	x:408,y:195.5,size:50,pictureName:"Hive Knight.png",hitboxType:'circle',linkEx:"Hive_Knight",
 			requirements:[{name:"Tram Pass"},{name:"Monarch Wings"}], notes:null,
@@ -280,7 +281,8 @@ class ItemInfoDatabase{
 			addToOnClaimed:{name:'Completion',quantity:1} },
 
 			"Massive Moss Charger":{	x:116,y:109,size:60,pictureName:"Massive Moss Charger.png",hitboxType:'circle',linkEx:"Massive_Moss_Charger",
-			requirements:[{name:"Mothwing Cloak"}], notes:null },
+			requirements:[{name:"Mothwing Cloak"}], notes:"drops 300 geo",
+			addToOnClaimed:{name:"Geo",quantity:300} },
 
 			"Nosk":{	x:143,y:213,size:50,pictureName:"Nosk.png",hitboxType:'circle',linkEx:"Nosk",
 			requirements:[{name:"Crystal Heart"},{name:"Lumafly Lantern"}], notes:null,
@@ -297,7 +299,8 @@ class ItemInfoDatabase{
 			addToOnClaimed:{name:'Completion',quantity:1} },
 
 			"Soul Warrior 1":{	x:280,y:130,size:50,pictureName:"Soul Warrior.png",hitboxType:'circle',linkEx:"Soul_Warrior",
-			requirements:[westCity], notes:null },
+			requirements:[westCity], notes:"drops 200 geo",
+			addToOnClaimed:{name:"Geo",quantity:200} },
 
 			"Soul Warrior 2":{	x:269.4,y:136,size:50,pictureName:"Soul Warrior.png",hitboxType:'circle',linkEx:"Soul_Warrior",
 			requirements:[westCity,{name:"Elegant Key"}], notes:null },
@@ -311,7 +314,8 @@ class ItemInfoDatabase{
 			addToOnClaimed:{name:'Completion',quantity:1} },////need tear???
 
 			"Vengefly King":{	x:99,y:63.3,size:50,pictureName:"Vengefly King.png",hitboxType:'circle',linkEx:"Vengefly_King",
-			requirements:[{name:"Vengeful Spirit"}], notes:"is eating Zote. If you leave him, he will die" },
+			requirements:[{name:"Vengeful Spirit"}], notes:"is eating Zote. If you leave him, he will die. Drops 65 geo",
+			addToOnClaimed:{name:"Geo",quantity:65} },
 
 			"Watcher Knights":{	x:302,y:134,size:50,pictureName:"Watcher Knight.png",hitboxType:'circle',linkEx:"Watcher_Knight",
 			requirements:[east], notes:"you can kill one before the fight with a chandelier",
@@ -504,7 +508,7 @@ class ItemInfoDatabase{
 			addToOnClaimed:[{name:'Charm',quantity:1},{name:'Completion',quantity:1}]  },
 
 			"Mark of Pride":{	x:196,y:170,size:50,pictureName:"Mark of Pride.png",hitboxType:'circle',linkEx:"Mark_of_Pride",type:"Charm",
-			requirements:[{name:"Mantis Lords"}], notes:"defeat the Mantis Lords",
+			requirements:[{name:"Mantis Lords"}], notes:null,
 			addToOnClaimed:[{name:'Charm',quantity:1},{name:'Completion',quantity:1}]  },
 
 			"Fury of the Fallen":{	x:172,y:65,size:50,pictureName:"Fury of the Fallen.png",hitboxType:'circle',linkEx:"Fury_of_the_Fallen",type:"Charm",
@@ -1223,7 +1227,7 @@ class ItemInfoDatabase{
 			addToOnClaimed:{name:"Hallownest Seal",quantity:1} },
 
 			"Hallownest Seal (Watcher's Tower)":{	x:296,y:135,size:30,pictureName:"Hallownest Seal.png",hitboxType:'circle',linkEx:"Hallownest_Seal",type:"Hallownest Seal",
-			requirements:[east], notes:null,
+			requirements:[{name:"Watcher Knights"}], notes:null,
 			addToOnClaimed:{name:"Hallownest Seal",quantity:1} },
 
 			"Hallownest Seal (Soul Sanctum)":{	x:254,y:130,size:30,pictureName:"Hallownest Seal.png",hitboxType:'circle',linkEx:"Hallownest_Seal",type:"Hallownest Seal",
@@ -1374,13 +1378,29 @@ class ItemInfoDatabase{
 			addToOnClaimed:{name:"Rancid Egg",quantity:1} },
 
 			//one time geo caches_____________________________________________________________
-			"Large Geo Catch":{	x:437.2,y:197.1,size:40,pictureName:"Large Geo Catch.png",hitboxType:'circle',linkEx:"Kingdom%27s_Edge#Points%20of%20Interest",
+			"Large Geo Catch":{	x:437.2,y:197.1,size:40,pictureName:"Large Geo Catch.png",hitboxType:'circle',linkEx:"Kingdom%27s_Edge#Points%20of%20Interest",type:"Geo",
 			requirements:[east, {name:"Desolate Dive"}], notes:"behind a breakable wall. At the bottom of a cave requiring multiple Desolate Dives. Gives 420 geo",
 			addToOnClaimed:{name:"Geo",quantity:420} },
 
-			"Gorgeous Husk":{	x:319,y:167.4,size:40,pictureName:"Gorgeous Husk.png",hitboxType:'circle',linkEx:"Gorgeous_Husk",
-			requirements:[east], notes:"Inside. Past a secret alcove on the right wall. Gives 420 geo",
+			"Gorgeous Husk":{	x:319,y:167.4,size:40,pictureName:"Gorgeous Husk.png",hitboxType:'circle',linkEx:"Gorgeous_Husk",type:"Geo",
+			requirements:[east], notes:"Inside. Past a secret alcove in the right wall. Gives 420 geo",
 			addToOnClaimed:{name:"Geo",quantity:420} },
+
+			"Geo Chest (False Knight)":{	x:210.6,y:84.6,size:40,pictureName:"Geo Chest.png",hitboxType:'rect',linkEx:"Geo",type:"Geo",
+			requirements:[{name:"False Knight"}], notes:"Gives 200 geo",
+			addToOnClaimed:{name:"Geo",quantity:200} },
+
+			"Geo Chest (Mantis Lords)":{	x:199,y:171,size:40,pictureName:"Geo Chest.png",hitboxType:'rect',linkEx:"Geo",type:"Geo",
+			requirements:[{name:"Mantis Lords"}], notes:"Gives 620 geo",
+			addToOnClaimed:{name:"Geo",quantity:620} },
+
+			"Geo Chest (Soul Master)":{	x:252,y:120,size:40,pictureName:"Geo Chest.png",hitboxType:'rect',linkEx:"Geo",type:"Geo",
+			requirements:[{name:"Soul Master"}], notes:"Gives 380 geo",
+			addToOnClaimed:{name:"Geo",quantity:380} },
+
+			"Geo Chest (Watcher Knights)":{	x:295,y:130,size:40,pictureName:"Geo Chest.png",hitboxType:'rect',linkEx:"Geo",type:"Geo",
+			requirements:[{name:"Watcher Knights"}], notes:"Gives 650 geo",
+			addToOnClaimed:{name:"Geo",quantity:650} },
 
 			//Grimm monsters____________________________________________________________________
 			"Grimmkin Novice (Greenpath)":{	x:125,y:97,size:50,pictureName:"Grimm Flame.png",hitboxType:'circle',linkEx:"Grimmkin_Novice",
@@ -1510,10 +1530,10 @@ class ItemInfoDatabase{
 			"Shortcut (Relic Seeker Lemm)":{	x:267.6,y:166.2,size:30,pictureName:"Arrow Down.png",hitboxType:'rect',type:"Shortcut",
 			requirements:[westCity], notes:null},
 
-			"Shortcut (Watcher's Tower Bottom)":{	x:292,y:171,size:30,pictureName:"Arrow Left.png",hitboxType:'rect',type:"Shortcut",
+			"Shortcut (Watcher's Tower Bottom)":{	x:289,y:171,size:30,pictureName:"Arrow Left.png",hitboxType:'rect',type:"Shortcut",
 			requirements:[east], notes:null},
 
-			"Shortcut (Watcher's Tower Middle)":{	x:292.5,y:152.5,size:30,pictureName:"Arrow Left.png",hitboxType:'rect',type:"Shortcut",
+			"Shortcut (Watcher's Tower Middle)":{	x:281,y:152.5,size:30,pictureName:"Arrow Left.png",hitboxType:'rect',type:"Shortcut",
 			requirements:[east], notes:null},
 
 			"Shortcut (Pleasure House)":{	x:331.2,y:136.6,size:30,pictureName:"Arrow Right.png",hitboxType:'rect',type:"Shortcut",
