@@ -117,17 +117,30 @@ class MoveZoomCamera{
     	return this.yCenter+this.screenHeight/this.pixelsPerUnitY/2;
     }
 
-    set right(newX){
-    	this._xCenter = newX-this.width/2;
+    set highestX(newX){
+    	this.xCenter = newX-this.width/2;
+    }
+    set lowestX(newX){
+    	this.xCenter = newX+this.width/2;
+    }
+    set highestY(newY){
+    	this.yCenter = newY-this.height/2;
+    }
+    set lowestY(newY){
+    	this.yCenter = newY+this.height/2;
+    }
+	
+	set right(newX){
+    	this._xCenter = newX-(this.screenWidth/this.pixelsPerUnitX)/2;
     }
     set left(newX){
-    	this._xCenter = newX+this.width/2;
+    	this._xCenter = newX+(this.screenWidth/this.pixelsPerUnitX)/2;
     }
     set top(newY){
-    	this._yCenter = newY+this.height/2;
+    	this._yCenter = newY+(this.screenHeight/this.pixelsPerUnitY)/2;//sign different than for x because pos y is normally down
     }
     set bottom(newY){
-    	this._yCenter = newY-this.height/2;
+    	this._yCenter = newY-(this.screenHeight/this.pixelsPerUnitY)/2;//sign different than for x because pos y is normally down
     }
 
 

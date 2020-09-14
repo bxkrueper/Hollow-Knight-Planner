@@ -31,6 +31,10 @@ class CameraManipulatorObject{
 	/////////////if ctrl down, scroll no mater what
 	scroll(direction){
 		var camera = this.world.camera;
+		let x = this.world.worldView.currentXWorld;//should be constant during zooming
+		let y = this.world.worldView.currentYWorld;//should be constant during zooming
+		const ratioX = (x-camera.lowestX)/camera.width;//should be constant during zooming ratio of how far along the screen mouse is
+		const ratioY = (y-camera.lowestY)/camera.height;//should be constant during zooming
 		if(direction=='up'){
 			camera.pixelsPerUnitX *= this._zoomFactor;
 			camera.pixelsPerUnitY *= this._zoomFactor;
@@ -38,6 +42,9 @@ class CameraManipulatorObject{
 			camera.pixelsPerUnitX /= this._zoomFactor;
 			camera.pixelsPerUnitY /= this._zoomFactor;
 		}
+		camera.lowestX = x-ratioX*camera.width;
+		camera.lowestY = y-ratioY*camera.height;
+		
 		this._keepZoomInBorders();
 		this._keepInBorders();
 
