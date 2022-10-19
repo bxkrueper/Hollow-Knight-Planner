@@ -1,4 +1,6 @@
 # Hollow-Knight-Planner
+![image](https://user-images.githubusercontent.com/28366832/196824684-b2919ba5-2b0f-4c6e-8133-ca93eb41dfec.png)
+
 To start, unzip and open hollow.html in the html folder. I've only tested this on chrome.
 This is a interactive planner that lets you keep track of goals and requirements.
 Right click a node to 'complete' it.
