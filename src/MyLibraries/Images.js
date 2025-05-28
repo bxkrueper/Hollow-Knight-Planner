@@ -1,6 +1,6 @@
 class _Images{
 
-	static pathToImageFolder = "../images/";/////have main class set this?
+	static pathToImageFolder = "images/";/////have main class set this?
 	static missingImageFileName = "MissingImage.jpg";
 
 	constructor(){
@@ -17,7 +17,7 @@ class _Images{
 
             //////////path. inefficient??? to have this function for every image???
             myImage.onerror = function(){
-            	return this.src = "../images/" + missingImageFileName;
+            	return this.src = "../images/" + _Images.missingImageFileName;
             }
 
             console.log('loaded image: ' + src);
