@@ -305,7 +305,7 @@ class WorldView{
   _getWheel(){
     var self = this;
     return function(event){
-      var direction = event.deltaY<100?'up':'down';/////////////////100?
+      var direction = event.deltaY<0?'up':'down';/////////////////100?
       self._world.doFunctionToAllObjects('scroll',direction);
 
       event.preventDefault();//stops the page from scrolling
