@@ -17,7 +17,7 @@ class _Images{
 
             //////////path. inefficient??? to have this function for every image???
             myImage.onerror = function(){
-            	return this.src = "../images/" + _Images.missingImageFileName;
+            	return this.src = "images/" + _Images.missingImageFileName;
             }
 
             console.log('loaded image: ' + src);
